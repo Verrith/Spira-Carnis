@@ -101,6 +101,7 @@ h1 {
   transition: transform 0.3s, box-shadow 0.3s;
   border: 1px solid #8b0000;
   box-shadow: 0 0 10px #4b0000 inset;
+  height: 100%;
 }
 
 .card:hover {
@@ -137,5 +138,7 @@ h1 {
 }
 
 .cards a {
-    text-decoration: none;
+  text-decoration: none;
+  display: block; /* 🔥 IMPORTANT */
+  height: 100%;   /* 🔥 pour que ça prenne toute la card */
 }
