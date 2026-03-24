@@ -4,7 +4,7 @@
    ========================================= */
 
 :root {
-    --bg-color: #050505;
+    --bg-color: #101010;
     --text-color: #a8a8a8;
     --accent-color: #8a0b0b;
     --glitch-color: #4a9eff;
@@ -335,45 +335,46 @@ body, html {
     background: rgba(10, 10, 10, 0.7);
     backdrop-filter: blur(2px);
     white-space: nowrap;
-    text-shadow: none;
-    z-index: 20;
-    /* Important pour que le texte ne saute pas */
-    transform: translateZ(0); 
 }
 
-/* Le calque de caractères bizarres (le glitch) */
-.horror-link::after {
-    content: "X#0Z@9Q&?";
+.horror-link::before {
+    content: '';
     position: absolute;
     top: 0;
-    left: 0;
+    left: -100%;
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--glitch-color);
-    background: rgba(0, 0, 0, 0.95); /* Fond plus opaque pour cacher le texte dessous */
-    opacity: 0;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-    letter-spacing: 5px;
-    /* Transition fluide pour l'apparition ET la disparition */
-    opacity: 0;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: opacity 0.1s ease, transform 0.1s ease; 
-    z-index: 21;
-    pointer-events: none;
-    text-shadow: 2px 0 #ff0000, -2px 0 #00ffff;
+    background: linear-gradient(90deg, transparent, rgba(138, 11, 11, 0.2), transparent);
+    transition: left 0.5s;
 }
 
-/* AU SURVOL : Le glitch apparaît */
-.horror-link:hover::after {
-    opacity: 1;
-    transform: scaleX(1);
-    animation: glitch-decode 0.3s steps(5) infinite;
+.horror-link:hover::before {
+    left: 100%;
 }
+
+.horror-link:hover {
+    border-color: var(--accent-color);
+    color: #fff;
+    letter-spacing: 4px;
+    text-shadow: 0 0 8px var(--accent-color);
+    background: rgba(20, 0, 0, 0.9);
+    transform: translateX(5px);
+}
+
+.glitch-active {
+    animation: glitch-anim-horror 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+    color: var(--glitch-color);
+}
+
+@keyframes glitch-anim-horror {
+    0% { transform: translate(0) skewX(0deg); }
+    20% { transform: translate(-3px, 2px) skewX(-10deg); }
+    40% { transform: translate(-3px, -2px) skewX(10deg); }
+    60% { transform: translate(3px, 2px) skewX(-10deg); }
+    80% { transform: translate(3px, -2px) skewX(10deg); }
+    100% { transform: translate(0) skewX(0deg); }
+}
+
 
 /* Animation des caractères aléatoires */
 @keyframes glitch-decode {
@@ -385,17 +386,6 @@ body, html {
     100% { content: "X#0Z@9Q&?"; transform: translateX(0); }
 }
 
-/* Effet global du lien au survol */
-.horror-link:hover {
-    border-color: var(--accent-color);
-    color: #fff;
-    letter-spacing: 4px;
-    text-shadow: 2px 0 #ff0000, -2px 0 #00ffff;
-    background: rgba(20, 0, 0, 0.9);
-    transform: translateX(5px);
-    animation: text-shake 0.3s infinite;
-}
-
 /* Animation de tremblement du texte */
 @keyframes text-shake {
     0% { transform: translateX(5px) skewX(0deg); }
@@ -403,23 +393,6 @@ body, html {
     50% { transform: translateX(4px) skewX(2deg); }
     75% { transform: translateX(6px) skewX(-1deg); }
     100% { transform: translateX(5px) skewX(0deg); }
-}
-
-/* Lueur qui passe sur le bouton */
-.horror-link::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(138, 11, 11, 0.2), transparent);
-    transition: left 0.5s;
-    z-index: 22;
-}
-
-.horror-link:hover::before {
-    left: 100%;
 }
 
 .platform-icon {
