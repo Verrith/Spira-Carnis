@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spira Carnis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Canvas pour le fond fluide -->
+    <canvas id="fluid-canvas"></canvas>
+    
+    <!-- Overlay Scanlines -->
+    <div class="overlay"></div>
+
+    <!-- Curseurs -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+
+    <!-- Visualizer -->
+    <div class="visualizer" id="visualizer"></div>
+
+    <div class="container">
+        <header>
+            <h1 class="glitch" data-text="SPIRA CARNIS">SPIRA CARNIS</h1>
+            <div class="subtitle">La chaîne communautaire</div>
+        </header>
+
+        <a href="https://www.youtube.com/@Spira_Carnis"></a>
+        <div class="hero-card" id="hero">
+            <div class="hero-text">
+                <h2>Bienvenue dans l'Univers</h2>
+                <p>Explorez les coulisses, les créations et les membres qui font vivre cette communauté. Une expérience unique, sombre et passionnée.</p>
+            </div>
+            <img src="images/Spira Carnis.png" alt="Spira Carnis" class="hero-img">
+        </div>
+
+        <h2 class="section-title">Les Membres</h2>
+
+        <div class="cards-grid">
+            <!-- Verrith -->
+            <a href="html/Verrith.html" class="member-card" data-text="VERRITH">
+                <div class="card-img-container">
+                    <img src="images/Cheryl_Mason.png" alt="Verrith" class="card-img">
+                </div>
+                <div class="card-content">
+                    <h3 class="text-animate">Verrith</h3>
+                    <p class="text-animate">Programmeur du groupe</p>
+                    <span class="role-tag">Fondateur</span>
+                </div>
+            </a>
+
+            <!-- Nero -->
+            <a href="html/Nero.html" class="member-card" data-text="NERO">
+                <div class="card-img-container">
+                    <img src="images/Nero.jpg" alt="Nero" class="card-img">
+                </div>
+                <div class="card-content">
+                    <h3 class="text-animate">Nero</h3>
+                    <p class="text-animate">-</p>
+                    <span class="role-tag">Membre</span>
+                </div>
+            </a>
+
+            <!-- Soulplayer -->
+            <a href="html/Soulplayer.html" class="member-card" data-text="SOULPLAYER">
+                <div class="card-img-container">
+                    <img src="images/Soulplayer.webp" alt="Soulplayer" class="card-img">
+                </div>
+                <div class="card-content">
+                    <h3 class="text-animate">Soulplayer</h3>
+                    <p class="text-animate">-</p>
+                    <span class="role-tag">Membre</span>
+                </div>
+            </a>
+
+            <!-- Boiling Stone -->
+            <a href="html/Boiled_Stone.html" class="member-card" data-text="BOILING STONE">
+                <div class="card-img-container">
+                    <img src="images/Boiling Stone.png" alt="Boiling Stone" class="card-img">
+                </div>
+                <div class="card-content">
+                    <h3 class="text-animate">Boiling Stone</h3>
+                    <p class="text-animate">-</p>
+                    <span class="role-tag">Membre</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script src="javascript/script.js"></script>
+</body>
+</html>

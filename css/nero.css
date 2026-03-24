@@ -1,0 +1,187 @@
+:root {
+            --mh-gold: #FFD700;
+            --mh-bg: #0f0f11;
+            --mh-panel: rgba(20, 20, 25, 0.95);
+            --text-main: #f0f0f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: radial-gradient(circle at center, #1a1a20 0%, #050505 100%);
+            font-family: 'Raleway', sans-serif;
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        /* CANVAS MINIMALISTE */
+        #spirit-canvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* CARTE */
+        .guild-card {
+            position: relative;
+            z-index: 10;
+            width: 380px;
+            background: var(--mh-panel);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 40px 30px;
+            text-align: center;
+            border-radius: 2px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            transform-style: preserve-3d;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: transform 0.1s ease-out, box-shadow 0.3s;
+        }
+
+        /* Cadre doré subtil */
+        .guild-card::before {
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            pointer-events: none;
+        }
+
+        /* AVATAR */
+        .avatar-container {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 20px;
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--mh-gold);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+            background: #000;
+        }
+
+        .rank-badge {
+            position: absolute;
+            bottom: 0; right: 0;
+            background: #8b0000;
+            color: #fff;
+            font-family: 'Cinzel', serif;
+            font-size: 0.65rem;
+            padding: 3px 8px;
+            border: 1px solid var(--mh-gold);
+            border-radius: 2px;
+            font-weight: bold;
+        }
+
+        /* TEXTE */
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: var(--mh-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            display: inline-block;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+
+        /* LIENS ÉPURÉS */
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid transparent;
+            color: #ccc;
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-item:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255, 215, 0, 0.3);
+            color: #fff;
+            padding-left: 20px;
+        }
+
+        .link-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .link-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+            transition: transform 0.3s;
+        }
+
+        .link-item:hover i {
+            transform: scale(1.2);
+        }
+
+        .link-item.twitch:hover { border-color: #9146FF; color: #9146FF; }
+        .link-item.twitch:hover i { color: #9146FF; }
+
+        .link-item.youtube:hover { border-color: #FF0000; color: #FF0000; }
+        .link-item.youtube:hover i { color: #FF0000; }
+
+        .link-item.discord:hover { border-color: #5865F2; color: #5865F2; }
+        .link-item.discord:hover i { color: #5865F2; }
+
+        .arrow {
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s;
+            font-size: 0.8rem;
+        }
+
+        .link-item:hover .arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .footer {
+            margin-top: 25px;
+            font-size: 0.6rem;
+            color: #444;
+            font-family: 'Cinzel', serif;
+        }
+
+        @media (max-width: 450px) {
+            .guild-card { width: 90%; }
+        }
