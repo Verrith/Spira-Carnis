@@ -185,3 +185,40 @@
         @media (max-width: 450px) {
             .guild-card { width: 90%; }
         }
+
+        /* Bouton Retour - Style Chasseur */
+.back-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 50%;
+    color: #888;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    z-index: 20;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.back-btn i {
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.back-btn:hover {
+    border-color: var(--mh-gold);
+    color: #fff;
+    background: rgba(139, 0, 0, 0.8); /* Rouge sombre au survol */
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.back-btn:hover i {
+    transform: translateX(-3px);
+}

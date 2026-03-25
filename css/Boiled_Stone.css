@@ -187,3 +187,36 @@
         body {
             cursor: crosshair;
         }
+
+        /* Style spécifique pour le bouton retour - Position Haut Gauche */
+.btn-retour {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    
+    /* Taille compacte */
+    padding: 0.4rem 0.8rem !important;
+    font-size: 1.2rem !important;
+    width: auto !important;
+    display: block !important;
+    
+    /* Style visuel */
+    border-color: var(--accent-dim) !important; /* Bordure sombre au repos */
+    color: var(--text-main);
+    opacity: 0.7;
+    z-index: 20; /* S'assure qu'il est au-dessus des autres éléments */
+    transition: all 0.2s ease;
+}
+
+.btn-retour:hover {
+    border-color: var(--accent-green) !important;
+    color: #000; /* Texte noir quand activé */
+    opacity: 1;
+    box-shadow: 0 0 15px var(--accent-green);
+    transform: translate(-2px, -2px); /* Léger décalage au survol */
+}
+
+/* Le remplissage vert au survol */
+.btn-retour::before {
+    background-color: var(--accent-green);
+}

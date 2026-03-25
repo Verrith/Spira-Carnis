@@ -1,431 +1,274 @@
-/* =========================================
-   FICHIER: verrith.css
-   THÈME: VHS Horror / Silent Hill Style
-   ========================================= */
+/* --- CONFIGURATION GÉNÉRALE --- */
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Roboto+Mono:wght@300&display=swap');
 
-:root {
-    --bg-color: #101010;
-    --text-color: #a8a8a8;
-    --accent-color: #8a0b0b;
-    --glitch-color: #4a9eff;
-    --heather-orange: #cc5500;
-    --vhs-scanline: rgba(0, 0, 0, 0.4);
-}
+        :root {
+            --bg-color: #050505;
+            --text-color: #c0c0c0;
+            --accent-color: #8a0e0e;
+            --scanline-color: rgba(0, 0, 0, 0.5);
+        }
 
-/* --- BASE --- */
-body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: 'Courier New', Courier, monospace;
-    overflow-x: hidden;
-    cursor: crosshair;
-}
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Roboto Mono', monospace;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-/* =========================================
-   1. EFFETS VHS GLOBAUX
-   ========================================= */
+        /* --- BOUTON RETOUR (NOUVEAU) --- */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100; /* Au-dessus de tout */
+            font-family: 'Special Elite', cursive;
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 1rem;
+            border: 1px solid #333;
+            padding: 8px 15px;
+            background: rgba(0, 0, 0, 0.7);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            backdrop-filter: blur(2px);
+        }
 
-/* Wrapper principal : applique le tremblement d'écran (Jitter) */
-.crt-wrapper {
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
-    animation: vhs-jitter 3s infinite;
-    z-index: 1;
-}
+        .back-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            background: rgba(20, 0, 0, 0.8);
+            box-shadow: 0 0 10px rgba(138, 14, 14, 0.4);
+            padding-left: 20px; /* Petit déplacement vers la droite */
+        }
 
-/* Lignes de balayage (Scanlines) haute définition */
-.vhs-scanlines {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0),
-        rgba(255, 255, 255, 0) 50%,
-        var(--vhs-scanline) 50%,
-        var(--vhs-scanline)
-    );
-    background-size: 100% 3px; /* Lignes fines */
-    z-index: 9999;
-    pointer-events: none;
-    opacity: 0.6;
-}
+        /* --- EFFETS VHS & CRT (GLOBAUX) --- */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            background: 
+                radial-gradient(circle, transparent 40%, #000 100%),
+                url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.15"/%3E%3C/svg%3E');
+        }
 
-/* Bande blanche de bruit (Tracking Error) */
-.vhs-tracking-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.4);
-    opacity: 0;
-    z-index: 9998;
-    pointer-events: none;
-    filter: blur(2px);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-}
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 11;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+            background-size: 100% 4px;
+            animation: scrollScanlines 10s linear infinite;
+        }
 
-/* Effet de distorsion chromatique sur l'image */
-.vhs-img-effect {
-    animation: vhs-color-shift 4s infinite;
-}
+        /* Ligne VHS horizontale aléatoire */
+        .vhs-line {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 12;
+            filter: blur(1px);
+        }
 
-@keyframes vhs-jitter {
-    0% { transform: translate(0, 0) skewX(0deg); }
-    10% { transform: translate(-1px, 0.5px) skewX(-0.5deg); }
-    20% { transform: translate(1px, -0.5px) skewX(0.5deg); }
-    30% { transform: translate(0, 0.5px) skewX(0deg); }
-    40% { transform: translate(0.5px, 0) skewX(-0.2deg); }
-    50% { transform: translate(-0.5px, 0.5px) skewX(0.2deg); }
-    100% { transform: translate(0, 0) skewX(0deg); }
-}
+        @keyframes scrollScanlines {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100%; }
+        }
 
-@keyframes vhs-color-shift {
-    0% { filter: grayscale(80%) contrast(120%) sepia(20%) hue-rotate(0deg); }
-    50% { filter: grayscale(90%) contrast(130%) sepia(30%) hue-rotate(-5deg); }
-    100% { filter: grayscale(80%) contrast(120%) sepia(20%) hue-rotate(0deg); }
-}
+        /* --- CONTENEUR --- */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            width: 90%;
+            margin-top: 50px;
+            text-align: center;
+            padding-bottom: 50px;
+        }
 
-/* =========================================
-   2. EFFETS D'AMBIANCE (BRUIT & SPIRALE)
-   ========================================= */
+        /* --- IMAGE DE PROFIL --- */
+        .profile-section {
+            margin-bottom: 40px;
+            position: relative;
+        }
 
-.noise-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 999;
-    opacity: 0.07;
-    background-image: repeating-radial-gradient(#000 0, #000 1px, #111 2px, #111 3px);
-    animation: noise-animation 0.2s infinite;
-}
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #333;
+            filter: grayscale(100%) contrast(120%) brightness(80%);
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            transition: filter 0.5s ease;
+            background-color: #111;
+        }
 
-@keyframes noise-animation {
-    0% { transform: translate(0,0); }
-    20% { transform: translate(-5%,-5%); }
-    40% { transform: translate(5%,-10%); }
-    60% { transform: translate(-5%,10%); }
-    80% { transform: translate(5%,-5%); }
-    100% { transform: translate(0,0); }
-}
+        .profile-img:hover {
+            filter: grayscale(0%) contrast(100%) brightness(90%);
+            border-color: var(--accent-color);
+        }
 
-.flicker-layer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.02);
-    pointer-events: none;
-    z-index: 998;
-    animation: light-flicker 5s infinite;
-}
+        .profile-img::after {
+            content: '';
+            position: absolute;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border-radius: 50%;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            animation: rotateGhost 20s linear infinite;
+        }
 
-@keyframes light-flicker {
-    0%, 100% { opacity: 0.1; }
-    3% { opacity: 0.3; }
-    5% { opacity: 0.1; }
-    7% { opacity: 0.5; }
-    8% { opacity: 0.1; }
-    50% { opacity: 0.05; }
-    52% { opacity: 0.2; }
-    54% { opacity: 0.05; }
-}
+        @keyframes rotateGhost {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
 
-.spiral-bg {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 700px;
-    height: 700px;
-    background: repeating-conic-gradient(
-        from 0deg,
-        #080808 0deg 15deg,
-        #141414 15deg 30deg
-    );
-    border-radius: 50%;
-    opacity: 0.25;
-    z-index: 1;
-    animation: rotate-spiral 80s linear infinite;
-    filter: blur(3px);
-}
+        /* --- EFFET GLITCH SUR LE TEXTE (VERRITH) --- */
+        h1 {
+            font-family: 'Special Elite', cursive;
+            font-size: 3rem;
+            color: #e0e0e0;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin: 10px 0 30px 0;
+            position: relative;
+            display: inline-block;
+        }
 
-@keyframes rotate-spiral {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
-}
+        h1::before, h1::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+        }
 
-/* =========================================
-   3. PROFIL & IMAGE
-   ========================================= */
+        h1::before {
+            left: 2px;
+            text-shadow: -1px 0 red;
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-1 2.5s infinite linear alternate-reverse;
+        }
 
-.container {
-    position: relative;
-    z-index: 10;
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 60px 20px 40px;
-    text-align: center;
-}
+        h1::after {
+            left: -2px;
+            text-shadow: -1px 0 blue;
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
 
-.profile-section {
-    margin-bottom: 40px;
-    position: relative;
-    display: inline-block;
-}
+        @keyframes glitch-anim-1 {
+            0% { clip: rect(20px, 9999px, 10px, 0); transform: skew(0.5deg); }
+            5% { clip: rect(50px, 9999px, 60px, 0); transform: skew(0.5deg); }
+            10% { clip: rect(10px, 9999px, 80px, 0); transform: skew(0.1deg); }
+            15% { clip: rect(90px, 9999px, 10px, 0); transform: skew(0.9deg); }
+            20% { clip: rect(10px, 9999px, 50px, 0); transform: skew(0.2deg); }
+            100% { clip: rect(40px, 9999px, 70px, 0); transform: skew(0.3deg); }
+        }
 
-.profile-img-container {
-    width: 180px;
-    height: 180px;
-    margin: 0 auto 20px;
-    position: relative;
-    border-radius: 50%;
-    padding: 4px;
-    background: linear-gradient(45deg, var(--accent-color), #000);
-    animation: border-pulse 3s infinite;
-    box-shadow: 0 0 20px rgba(138, 11, 11, 0.4);
-}
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(60px, 9999px, 70px, 0); transform: skew(0.8deg); }
+            5% { clip: rect(10px, 9999px, 20px, 0); transform: skew(0.2deg); }
+            10% { clip: rect(80px, 9999px, 10px, 0); transform: skew(0.5deg); }
+            15% { clip: rect(30px, 9999px, 90px, 0); transform: skew(0.1deg); }
+            20% { clip: rect(70px, 9999px, 20px, 0); transform: skew(0.6deg); }
+            100% { clip: rect(20px, 9999px, 50px, 0); transform: skew(0.4deg); }
+        }
 
-@keyframes border-pulse {
-    0% { box-shadow: 0 0 15px rgba(138, 11, 11, 0.3); }
-    50% { box-shadow: 0 0 30px rgba(138, 11, 11, 0.6), 0 0 10px var(--heather-orange); }
-    100% { box-shadow: 0 0 15px rgba(138, 11, 11, 0.3); }
-}
+        /* --- LIENS --- */
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+        }
 
-.profile-img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #000;
-    filter: grayscale(80%) contrast(110%);
-    transition: all 0.4s ease;
-    position: relative;
-    z-index: 2;
-}
+        .link-card {
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid #333;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+            display: block;
+        }
 
-.profile-img:hover {
-    filter: grayscale(0%) contrast(120%);
-    transform: scale(1.05);
-    box-shadow: 0 0 25px var(--heather-orange);
-}
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+            transform-origin: bottom;
+        }
 
-/* =========================================
-   4. TEXTE GLITCHÉ (NOM)
-   ========================================= */
+        .link-card:hover {
+            background: rgba(40, 10, 10, 0.8);
+            border-color: var(--accent-color);
+            padding-left: 30px;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
 
-.profile-name {
-    font-size: 1.8rem;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    color: #dcdcdc;
-    margin: 10px 0 5px;
-    text-shadow: 2px 2px 0 #000;
-    position: relative;
-    display: inline-block;
-    animation: text-glitch-anim 3s infinite;
-}
+        .link-card:hover::before {
+            transform: scaleY(1);
+        }
 
-/* Création des couches de couleurs (Rouge/Bleu) pour l'effet 3D cassé */
-.profile-name::before,
-.profile-name::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--bg-color);
-}
+        footer {
+            margin-top: 60px;
+            font-size: 0.8rem;
+            opacity: 0.5;
+            font-family: 'Special Elite', cursive;
+        }
 
-.profile-name::before {
-    left: 2px;
-    text-shadow: -1px 0 #ff0000;
-    clip: rect(24px, 550px, 90px, 0);
-    animation: text-glitch-anim-2 3s infinite linear alternate-reverse;
-    opacity: 0.7;
-}
+        /* --- BRUME --- */
+        .fog-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            opacity: 0.4;
+        }
+        
+        .fog-img {
+            position: absolute;
+            height: 100vh;
+            width: 300vw;
+            background: url('https://raw.githubusercontent.com/danielstuart14/CSS_FOG_ANIMATION/master/fog1.png') repeat-x;
+            background-size: contain;
+            animation: fogMove 60s linear infinite;
+        }
 
-.profile-name::after {
-    left: -2px;
-    text-shadow: -1px 0 #00ffff;
-    clip: rect(85px, 550px, 140px, 0);
-    animation: text-glitch-anim-2 2s infinite linear alternate-reverse;
-    opacity: 0.7;
-}
+        .fog-img-2 {
+            background: url('https://raw.githubusercontent.com/danielstuart14/CSS_FOG_ANIMATION/master/fog2.png') repeat-x;
+            background-size: contain;
+            animation: fogMove 40s linear infinite reverse;
+            top: 30%;
+        }
 
-/* Animations spécifiques au glitch texte */
-@keyframes text-glitch-anim {
-    0% { transform: translate(0); }
-    20% { transform: translate(-2px, 2px); }
-    40% { transform: translate(-2px, -2px); }
-    60% { transform: translate(2px, 2px); }
-    80% { transform: translate(2px, -2px); }
-    100% { transform: translate(0); }
-}
-
-@keyframes text-glitch-anim-2 {
-    0% { clip: rect(10px, 9999px, 31px, 0); transform: skew(0.5deg); }
-    5% { clip: rect(50px, 9999px, 70px, 0); transform: skew(0.5deg); }
-    10% { clip: rect(20px, 9999px, 90px, 0); transform: skew(-0.5deg); }
-    15% { clip: rect(80px, 9999px, 10px, 0); transform: skew(0.5deg); }
-    20% { clip: rect(10px, 9999px, 50px, 0); transform: skew(-0.5deg); }
-    25% { clip: rect(60px, 9999px, 20px, 0); transform: skew(0.5deg); }
-    30% { clip: rect(30px, 9999px, 80px, 0); transform: skew(-0.5deg); }
-    35% { clip: rect(90px, 9999px, 10px, 0); transform: skew(0.5deg); }
-    40% { clip: rect(15px, 9999px, 60px, 0); transform: skew(-0.5deg); }
-    45% { clip: rect(70px, 9999px, 30px, 0); transform: skew(0.5deg); }
-    50% { clip: rect(25px, 9999px, 95px, 0); transform: skew(-0.5deg); }
-    55% { clip: rect(55px, 9999px, 15px, 0); transform: skew(0.5deg); }
-    60% { clip: rect(10px, 9999px, 45px, 0); transform: skew(-0.5deg); }
-    65% { clip: rect(85px, 9999px, 25px, 0); transform: skew(0.5deg); }
-    70% { clip: rect(35px, 9999px, 75px, 0); transform: skew(-0.5deg); }
-    75% { clip: rect(65px, 9999px, 5px, 0); transform: skew(0.5deg); }
-    80% { clip: rect(20px, 9999px, 55px, 0); transform: skew(-0.5deg); }
-    85% { clip: rect(75px, 9999px, 35px, 0); transform: skew(0.5deg); }
-    90% { clip: rect(40px, 9999px, 85px, 0); transform: skew(-0.5deg); }
-    95% { clip: rect(95px, 9999px, 15px, 0); transform: skew(0.5deg); }
-    100% { clip: rect(5px, 9999px, 65px, 0); transform: skew(-0.5deg); }
-}
-
-.profile-tagline {
-    font-size: 0.85rem;
-    color: #666;
-    font-style: italic;
-    letter-spacing: 1px;
-}
-
-/* =========================================
-   5. LIENS AVEC GLITCH & RÉAPPARITION FLUIDE
-   ========================================= */
-
-.link-list {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    margin-top: 30px;
-}
-
-.horror-link {
-    display: block;
-    padding: 18px 25px;
-    border: 1px solid #333;
-    color: var(--text-color);
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    background: rgba(10, 10, 10, 0.7);
-    backdrop-filter: blur(2px);
-    white-space: nowrap;
-}
-
-.horror-link::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(138, 11, 11, 0.2), transparent);
-    transition: left 0.5s;
-}
-
-.horror-link:hover::before {
-    left: 100%;
-}
-
-.horror-link:hover {
-    border-color: var(--accent-color);
-    color: #fff;
-    letter-spacing: 4px;
-    text-shadow: 0 0 8px var(--accent-color);
-    background: rgba(20, 0, 0, 0.9);
-    transform: translateX(5px);
-}
-
-.glitch-active {
-    animation: glitch-anim-horror 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
-    color: var(--glitch-color);
-}
-
-@keyframes glitch-anim-horror {
-    0% { transform: translate(0) skewX(0deg); }
-    20% { transform: translate(-3px, 2px) skewX(-10deg); }
-    40% { transform: translate(-3px, -2px) skewX(10deg); }
-    60% { transform: translate(3px, 2px) skewX(-10deg); }
-    80% { transform: translate(3px, -2px) skewX(10deg); }
-    100% { transform: translate(0) skewX(0deg); }
-}
-
-
-/* Animation des caractères aléatoires */
-@keyframes glitch-decode {
-    0% { content: "X#0Z@9Q&?"; transform: translateX(0); }
-    20% { content: "7M!K2L$P8"; transform: translateX(-5px); }
-    40% { content: "@9Q&?X#0Z"; transform: translateX(5px); }
-    60% { content: "$P87M!K2L"; transform: translateX(-2px); }
-    80% { content: "Q&?X#0Z@9"; transform: translateX(2px); }
-    100% { content: "X#0Z@9Q&?"; transform: translateX(0); }
-}
-
-/* Animation de tremblement du texte */
-@keyframes text-shake {
-    0% { transform: translateX(5px) skewX(0deg); }
-    25% { transform: translateX(6px) skewX(-2deg); }
-    50% { transform: translateX(4px) skewX(2deg); }
-    75% { transform: translateX(6px) skewX(-1deg); }
-    100% { transform: translateX(5px) skewX(0deg); }
-}
-
-.platform-icon {
-    display: inline-block;
-    width: 25px;
-    text-align: center;
-    margin-right: 10px;
-    opacity: 0.9;
-    vertical-align: middle;
-    position: relative;
-    z-index: 23;
-}
-
-/* =========================================
-   6. FOOTER & WHISPERS
-   ========================================= */
-
-footer {
-    margin-top: 60px;
-    font-size: 0.7rem;
-    color: #333;
-    letter-spacing: 1px;
-    position: relative;
-    z-index: 10;
-}
-
-.whisper {
-    position: absolute;
-    font-size: 0.75rem;
-    color: #555;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 2s;
-    z-index: 5;
-    font-style: italic;
-}
+        @keyframes fogMove {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-200vw, 0, 0); }
+        }

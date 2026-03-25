@@ -1,4 +1,4 @@
-// 1. Effet Glitch sur les liens
+// --- 1. SCRIPT GLITCH SUR LES LIENS ---
         const links = document.querySelectorAll('.horror-link');
 
         links.forEach(link => {
@@ -37,24 +37,59 @@
             });
         });
 
-        // --- 2. MESSAGES FANTÔMES ---
+        // --- 2. EFFET LIGNE VHS (TRACKING) ---
+        const vhsLine = document.getElementById('vhs-line');
+        
+        function triggerVHSLine() {
+            const randomTop = Math.random() * 100;
+            vhsLine.style.top = randomTop + '%';
+            vhsLine.style.opacity = Math.random() * 0.5 + 0.2;
+            
+            const duration = Math.random() * 200 + 100;
+
+            setTimeout(() => {
+                vhsLine.style.opacity = '0';
+            }, duration);
+
+            setTimeout(triggerVHSLine, Math.random() * 3000 + 1000);
+        }
+        
+        setTimeout(triggerVHSLine, 1000);
+
+        // --- 3. EFFET GLITCH TEXTUEL ALÉATOIRE SUR LE TITRE ---
+        const title = document.querySelector('h1');
+        
+        setInterval(() => {
+            if(Math.random() > 0.95) {
+                const skew = (Math.random() * 20 - 10) + 'deg';
+                const blur = (Math.random() * 2) + 'px';
+                
+                title.style.transform = `skew(${skew})`;
+                title.style.filter = `blur(${blur})`;
+                title.style.textShadow = `${Math.random()*4 - 2}px 0 red, ${Math.random()*4 - 2}px 0 blue`;
+
+                setTimeout(() => {
+                    title.style.transform = 'skew(0deg)';
+                    title.style.filter = 'blur(0px)';
+                    title.style.textShadow = 'none';
+                }, 100);
+            }
+        }, 500);
+
+        // --- 4. MESSAGES FANTÔMES ---
         const whispers = [
-            "La ville t'appelle...",
-            "Ne fais pas confiance aux miroirs.",
-            "Il est dans ton reflet.",
-            "Tu entends ce bruit ?",
-            "La spirale ne finit jamais.",
-            "Réveille-toi.",
-            "Ce n'est qu'un cauchemar.",
-            "Heather sait la vérité.",
-            "Fuis avant qu'il ne soit trop tard.",
-            "Le brouillard se lève..."
+            "In my restless dreams", "I see that town", "Waiting for you...", "Silent Hill"
         ];
 
         function createWhisper() {
             const whisper = document.createElement('div');
-            whisper.classList.add('whisper');
             whisper.innerText = whispers[Math.floor(Math.random() * whispers.length)];
+            whisper.style.position = 'fixed';
+            whisper.style.color = 'rgba(255, 255, 255, 0.3)';
+            whisper.style.fontFamily = "'Special Elite', cursive";
+            whisper.style.pointerEvents = 'none';
+            whisper.style.zIndex = '5';
+            whisper.style.transition = 'opacity 2s';
             
             const x = Math.random() * window.innerWidth;
             const y = Math.random() * window.innerHeight;
@@ -64,68 +99,11 @@
             
             document.body.appendChild(whisper);
 
-            setTimeout(() => { whisper.style.opacity = 0.7; }, 100);
-            setTimeout(() => { whisper.style.opacity = 0; }, 5000);
-            setTimeout(() => { whisper.remove(); }, 7000);
+            setTimeout(() => { whisper.style.opacity = 0.8; }, 100);
+            setTimeout(() => { whisper.style.opacity = 0; }, 4000);
+            setTimeout(() => { whisper.remove(); }, 6000);
         }
 
         setInterval(() => {
-            if(Math.random() > 0.6) createWhisper();
-        }, Math.random() * 3000 + 2000);
-
-        // --- 3. EFFET SUR LE NOM "VERRITH" ---
-        const nameElement = document.querySelector('.profile-name');
-        
-        setInterval(() => {
-            if(Math.random() > 0.92) {
-                nameElement.style.color = '#8a0b0b';
-                nameElement.style.textShadow = '0 0 10px #8a0b0b';
-                nameElement.style.transform = 'skewX(5deg)';
-                
-                setTimeout(() => {
-                    nameElement.style.color = '';
-                    nameElement.style.textShadow = '';
-                    nameElement.style.transform = '';
-                }, 250);
-            }
-        }, 1500);
-
-        // --- 4. EFFET IMAGE AU CHARGEMENT ---
-        window.addEventListener('load', () => {
-            const img = document.getElementById('heather-img');
-            img.style.filter = 'grayscale(100%) contrast(130%)';
-            setTimeout(() => {
-                img.style.filter = ''; // Retour à la classe CSS par défaut
-            }, 800);
-        });
-
-        // --- 5. EFFET BANDE VHS (TRACKING) AMÉLIORÉ ---
-        const vhsBar = document.getElementById('vhs-bar');
-        const crtScreen = document.getElementById('crt-screen');
-        
-        function triggerVHSBar() {
-            // Position aléatoire
-            const randomTop = Math.random() * 100;
-            vhsBar.style.top = randomTop + '%';
-            vhsBar.style.opacity = '0.6';
-            
-            // Effet de distorsion rapide sur tout l'écran pendant la bande
-            crtScreen.style.animation = 'none'; // Stop jitter
-            crtScreen.offsetHeight; /* trigger reflow */
-            crtScreen.style.animation = 'vhs-jitter 0.1s infinite'; // Jitter rapide
-
-            setTimeout(() => {
-                vhsBar.style.opacity = '0';
-                crtScreen.style.animation = 'vhs-jitter 3s infinite'; // Retour jitter lent
-            }, 200);
-
-            // Relance aléatoire
-            setTimeout(triggerVHSBar, Math.random() * 4000 + 2000);
-        }
-        
-        // Démarrage
-        setTimeout(triggerVHSBar, 2000);
-
-        // --- 6. AJOUT DU JITTER GLOBAL DOUX ---
-        // Appliqué via CSS sur .crt-wrapper, mais on peut l'activer ici si besoin
-        crtScreen.style.animation = 'vhs-jitter 3s infinite';
+            if(Math.random() > 0.7) createWhisper();
+        }, 3000);
