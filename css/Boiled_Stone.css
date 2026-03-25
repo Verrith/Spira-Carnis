@@ -18,16 +18,14 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            overflow: hidden; /* Empêche le scroll lors des tremblements */
             background-image: radial-gradient(circle at center, #111 0%, #000 100%);
         }
 
-        /* Conteneur principal avec effet de profondeur */
         .container {
             text-align: center;
             width: 100%;
             max-width: 420px;
-            padding: 2.5rem;
+            padding: 1rem 1rem; /* vertical horizontal */
             border: var(--border-width) solid var(--text-main);
             box-shadow: 15px 15px 0px var(--accent-dim);
             background-color: var(--card-bg);
@@ -35,7 +33,6 @@
             transition: transform 0.1s ease;
             z-index: 10;
         }
-
         /* Effet CRT (Scanlines) */
         .scanlines {
             position: fixed;

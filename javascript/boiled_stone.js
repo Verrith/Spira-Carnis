@@ -52,19 +52,6 @@ function triggerGlitch() {
 // Lancer le premier glitch
 setTimeout(triggerGlitch, 3000);
 
-// --- 3. Effet de parallaxe souris (3D Tilt) ---
-document.addEventListener('mousemove', (e) => {
-    const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-    const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-    
-    // Applique une légère rotation au conteneur
-    container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-});
-
-// Reset de la position quand la souris sort
-document.addEventListener('mouseleave', () => {
-    container.style.transform = `rotateY(0deg) rotateX(0deg)`;
-});
 
 // --- 4. Interaction Boutons (Son de clic simulé visuellement) ---
 // Sélectionne tous les boutons, y compris le nouveau bouton RETOUR
