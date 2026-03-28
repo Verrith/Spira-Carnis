@@ -4,9 +4,257 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SUPER MEAT BOY</title>
-    <link rel="stylesheet" href="../css/boiled_stone.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&display=swap');
+        
+
+        /* 2. Ensuite seulement les variables et le reste du CSS */
+        :root {
+            --meat-red: #ff003c;
+            --meat-dark: #cc0030;
+            --plaster: #e0e0e0;
+            --ink-black: #0d0d0d;
+        }
+
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--ink-black);
+            /* Fond style "Viande" */
+            background-image: 
+                linear-gradient(var(--ink-black) 2px, transparent 2px),
+                linear-gradient(90deg, var(--ink-black) 2px, transparent 2px),
+                linear-gradient(var(--meat-dark) 1px, transparent 1px),
+                linear-gradient(90deg, var(--meat-dark) 1px, transparent 1px);
+            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+            background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+            
+            font-family: 'Anton', sans-serif;
+            color: var(--plaster);
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        section {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+            padding-bottom: 30px;
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+            background-size: 100% 4px;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        .container {
+            position: relative;
+            text-align: center;
+            z-index: 5;
+            max-width: 600px;
+            width: 95%;
+            border: 6px solid var(--ink-black);
+            background: var(--meat-red);
+            padding: 30px 20px;
+            box-shadow: 15px 15px 0px var(--ink-black); 
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .btn-retour {
+            position: absolute;
+            top: -25px;
+            left: -25px;
+            background: var(--plaster);
+            color: var(--ink-black);
+            padding: 10px 20px;
+            text-decoration: none;
+            font-family: 'Anton', sans-serif;
+            font-size: 1.2rem;
+            border: 4px solid var(--ink-black);
+            box-shadow: 5px 5px 0px var(--ink-black);
+            transition: all 0.1s;
+            text-transform: uppercase;
+            z-index: 20;
+            transform: rotate(-5deg);
+        }
+
+        .btn-retour:hover {
+            background: var(--ink-black);
+            color: var(--meat-red);
+            transform: rotate(-5deg) translate(-3px, -3px);
+            box-shadow: 8px 8px 0px var(--plaster);
+        }
+
+        .btn-retour:active {
+            transform: rotate(-5deg) translate(2px, 2px);
+            box-shadow: 2px 2px 0px var(--ink-black);
+        }
+
+        /* --- IMAGE CERCLE CORRIGÉE --- */
+        .profile-img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover; /* L'image remplit le cercle sans être déformée */
+            border: 5px solid var(--ink-black);
+            background: var(--plaster);
+            margin-bottom: 15px;
+            display: inline-block;
+            
+            /* C'est ici que ça devient un cercle */
+            border-radius: 50%; 
+            
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Pansement adapté au cercle (plus petit et centré) */
+        .profile-img::after {
+            content: '';
+            position: absolute;
+            top: 55%; /* Centré verticalement */
+            left: 50%;
+            width: 50px; /* Plus petit */
+            height: 14px;
+            background: var(--plaster);
+            border: 2px solid var(--ink-black);
+            /* Centrage parfait */
+            transform: translate(-50%, -50%) rotate(-20deg); 
+            z-index: 3;
+        }
+
+        h1 {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 3.5rem;
+            margin: 10px 0;
+            color: var(--plaster);
+            text-transform: uppercase;
+            text-shadow: 
+                4px 4px 0px var(--ink-black),
+                -2px -2px 0px var(--ink-black),
+                2px -2px 0px var(--ink-black),
+                -2px 2px 0px var(--ink-black);
+            letter-spacing: 2px;
+            line-height: 1;
+            animation: shake 0.5s infinite;
+        }
+
+        .subtitle {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.4rem;
+            min-height: 1.6em;
+            margin: 20px auto;
+            color: var(--ink-black);
+            background: var(--plaster);
+            display: inline-block;
+            padding: 5px 15px;
+            border: 3px solid var(--ink-black);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+            font-weight: normal;
+            letter-spacing: 1px;
+        }
+
+        .decoration {
+            height: 20px;
+            background: var(--plaster);
+            border: 4px solid var(--ink-black);
+            margin: 30px auto;
+            width: 60%;
+            transform: rotate(2deg);
+            position: relative;
+        }
+        .decoration::before, .decoration::after {
+            content: '';
+            position: absolute;
+            top: -6px;
+            width: 10px;
+            height: 32px;
+            background: var(--ink-black);
+        }
+        .decoration::before { left: -6px; }
+        .decoration::after { right: -6px; }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .link-btn {
+            display: block;
+            width: 90%;
+            padding: 15px 0;
+            background: var(--plaster);
+            border: 4px solid var(--ink-black);
+            color: var(--ink-black);
+            text-decoration: none;
+            font-family: 'Anton', sans-serif;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 6px 6px 0px var(--ink-black);
+            transition: all 0.1s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-btn:hover {
+            background: var(--ink-black);
+            color: var(--meat-red);
+            transform: translate(-4px, -4px);
+            box-shadow: 10px 10px 0px var(--plaster);
+        }
+
+        .link-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: 2px 2px 0px var(--ink-black);
+        }
+
+        footer {
+            margin-top: 40px;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.2rem;
+            color: var(--plaster);
+            text-shadow: 2px 2px 0px var(--ink-black);
+            animation: blink 0.2s infinite alternate;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            20% { transform: translate(-2px, -1px) rotate(-1deg); }
+            40% { transform: translate(-1px, 2px) rotate(1deg); }
+            60% { transform: translate(1px, -2px) rotate(0deg); }
+            80% { transform: translate(-1px, 1px) rotate(1deg); }
+            100% { transform: translate(1px, -1px) rotate(-1deg); }
+        }
+
+        @keyframes blink {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            .btn-retour { top: -15px; left: -10px; padding: 8px 12px; font-size: 1rem; }
+            .container { width: 90%; padding: 20px 10px; }
+        }
+
     </style>
 </head>
 <body>
