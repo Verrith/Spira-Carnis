@@ -1,11 +1,14 @@
+        /* 1. Les imports doivent être TOUT EN HAUT, avant tout le reste */
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&display=swap');
 
+        /* 2. Ensuite seulement les variables et le reste du CSS */
         :root {
             --meat-red: #ff003c;
             --meat-dark: #cc0030;
             --plaster: #e0e0e0;
             --ink-black: #0d0d0d;
         }
+
 
         body {
             margin: 0;
