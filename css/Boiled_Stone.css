@@ -1,219 +1,246 @@
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&display=swap');
 
         :root {
-            --bg-color: #050505;
-            --card-bg: #0a0a0a;
-            --text-main: #c0c0c0;
-            --accent-green: #39ff14;
-            --accent-dim: #1a4d1a;
-            --border-width: 3px;
+            --meat-red: #ff003c;
+            --meat-dark: #cc0030;
+            --plaster: #e0e0e0;
+            --ink-black: #0d0d0d;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'VT323', monospace;
+            margin: 0;
+            padding: 0;
+            background-color: var(--ink-black);
+            /* Fond style "Viande" */
+            background-image: 
+                linear-gradient(var(--ink-black) 2px, transparent 2px),
+                linear-gradient(90deg, var(--ink-black) 2px, transparent 2px),
+                linear-gradient(var(--meat-dark) 1px, transparent 1px),
+                linear-gradient(90deg, var(--meat-dark) 1px, transparent 1px);
+            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+            background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+            
+            font-family: 'Anton', sans-serif;
+            color: var(--plaster);
+            overflow-x: hidden;
             display: flex;
             justify-content: center;
-            align-items: center;
             min-height: 100vh;
-            margin: 0;
-            background-image: radial-gradient(circle at center, #111 0%, #000 100%);
         }
 
-        .container {
-            text-align: center;
-            width: 100%;
-            max-width: 420px;
-            padding: 1rem 1rem; /* vertical horizontal */
-            border: var(--border-width) solid var(--text-main);
-            box-shadow: 15px 15px 0px var(--accent-dim);
-            background-color: var(--card-bg);
+        section {
             position: relative;
-            transition: transform 0.1s ease;
-            z-index: 10;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+            padding-bottom: 30px;
         }
-        /* Effet CRT (Scanlines) */
+
         .scanlines {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
             background-size: 100% 4px;
+            z-index: 10;
             pointer-events: none;
-            z-index: 99;
-            opacity: 0.6;
+            opacity: 0.3;
         }
 
-        /* Effet de vignette sombre sur les bords */
-        .vignette {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.8) 100%);
-            pointer-events: none;
-            z-index: 98;
+        .container {
+            position: relative;
+            text-align: center;
+            z-index: 5;
+            max-width: 600px;
+            width: 95%;
+            border: 6px solid var(--ink-black);
+            background: var(--meat-red);
+            padding: 30px 20px;
+            box-shadow: 15px 15px 0px var(--ink-black); 
+            animation: float 3s ease-in-out infinite;
         }
 
+        .btn-retour {
+            position: absolute;
+            top: -25px;
+            left: -25px;
+            background: var(--plaster);
+            color: var(--ink-black);
+            padding: 10px 20px;
+            text-decoration: none;
+            font-family: 'Anton', sans-serif;
+            font-size: 1.2rem;
+            border: 4px solid var(--ink-black);
+            box-shadow: 5px 5px 0px var(--ink-black);
+            transition: all 0.1s;
+            text-transform: uppercase;
+            z-index: 20;
+            transform: rotate(-5deg);
+        }
+
+        .btn-retour:hover {
+            background: var(--ink-black);
+            color: var(--meat-red);
+            transform: rotate(-5deg) translate(-3px, -3px);
+            box-shadow: 8px 8px 0px var(--plaster);
+        }
+
+        .btn-retour:active {
+            transform: rotate(-5deg) translate(2px, 2px);
+            box-shadow: 2px 2px 0px var(--ink-black);
+        }
+
+        /* --- IMAGE CERCLE CORRIGÉE --- */
         .profile-img {
             width: 140px;
             height: 140px;
-            border-radius: 50%;
-            border: 3px solid var(--text-main);
-            object-fit: cover;
-            margin-bottom: 1.5rem;
-            filter: grayscale(100%) contrast(1.2) brightness(0.8);
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(0,0,0,0.8);
+            object-fit: cover; /* L'image remplit le cercle sans être déformée */
+            border: 5px solid var(--ink-black);
+            background: var(--plaster);
+            margin-bottom: 15px;
+            display: inline-block;
+            
+            /* C'est ici que ça devient un cercle */
+            border-radius: 50%; 
+            
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
         }
 
-        .profile-img:hover {
-            filter: grayscale(0%) contrast(1) brightness(1);
-            border-color: var(--accent-green);
-            box-shadow: 0 0 20px var(--accent-green);
+        /* Pansement adapté au cercle (plus petit et centré) */
+        .profile-img::after {
+            content: '';
+            position: absolute;
+            top: 55%; /* Centré verticalement */
+            left: 50%;
+            width: 50px; /* Plus petit */
+            height: 14px;
+            background: var(--plaster);
+            border: 2px solid var(--ink-black);
+            /* Centrage parfait */
+            transform: translate(-50%, -50%) rotate(-20deg); 
+            z-index: 3;
         }
 
         h1 {
-            font-size: 3rem;
-            margin: 0.5rem 0;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 3.5rem;
+            margin: 10px 0;
+            color: var(--plaster);
             text-transform: uppercase;
-            letter-spacing: 4px;
-            text-shadow: 3px 3px 0px #000;
-            position: relative;
-            display: inline-block;
+            text-shadow: 
+                4px 4px 0px var(--ink-black),
+                -2px -2px 0px var(--ink-black),
+                2px -2px 0px var(--ink-black),
+                -2px 2px 0px var(--ink-black);
+            letter-spacing: 2px;
+            line-height: 1;
+            animation: shake 0.5s infinite;
         }
 
         .subtitle {
-            color: var(--accent-green);
+            font-family: 'Anton', sans-serif;
             font-size: 1.4rem;
-            margin-bottom: 2rem;
-            text-transform: uppercase;
-            min-height: 1.4rem; /* Réserve l'espace */
-            text-shadow: 0 0 5px var(--accent-green);
+            min-height: 1.6em;
+            margin: 20px auto;
+            color: var(--ink-black);
+            background: var(--plaster);
+            display: inline-block;
+            padding: 5px 15px;
+            border: 3px solid var(--ink-black);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+            font-weight: normal;
+            letter-spacing: 1px;
         }
 
         .decoration {
-            margin: 25px 0;
-            height: 6px;
-            background: repeating-linear-gradient(
-                90deg,
-                var(--text-main),
-                var(--text-main) 20px,
-                transparent 20px,
-                transparent 40px
-            );
-            opacity: 0.3;
+            height: 20px;
+            background: var(--plaster);
+            border: 4px solid var(--ink-black);
+            margin: 30px auto;
+            width: 60%;
+            transform: rotate(2deg);
+            position: relative;
         }
+        .decoration::before, .decoration::after {
+            content: '';
+            position: absolute;
+            top: -6px;
+            width: 10px;
+            height: 32px;
+            background: var(--ink-black);
+        }
+        .decoration::before { left: -6px; }
+        .decoration::after { right: -6px; }
 
         .links {
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
+            gap: 20px;
+            align-items: center;
         }
 
         .link-btn {
             display: block;
-            padding: 1rem;
-            background: transparent;
-            border: 2px solid var(--text-main);
-            color: var(--text-main);
+            width: 90%;
+            padding: 15px 0;
+            background: var(--plaster);
+            border: 4px solid var(--ink-black);
+            color: var(--ink-black);
             text-decoration: none;
-            font-size: 1.6rem;
+            font-family: 'Anton', sans-serif;
+            font-size: 1.5rem;
             text-transform: uppercase;
-            cursor: pointer;
+            letter-spacing: 2px;
+            box-shadow: 6px 6px 0px var(--ink-black);
+            transition: all 0.1s;
             position: relative;
             overflow: hidden;
-            transition: color 0.1s;
-            font-family: 'VT323', monospace;
-        }
-
-        /* Barre de chargement au survol */
-        .link-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; height: 100%; width: 0%;
-            background-color: var(--accent-green);
-            z-index: -1;
-            transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .link-btn:hover {
-            color: #000;
-            border-color: var(--accent-green);
-            box-shadow: 0 0 15px var(--accent-green);
-        }
-
-        .link-btn:hover::before {
-            width: 100%;
+            background: var(--ink-black);
+            color: var(--meat-red);
+            transform: translate(-4px, -4px);
+            box-shadow: 10px 10px 0px var(--plaster);
         }
 
         .link-btn:active {
-            transform: scale(0.98);
+            transform: translate(4px, 4px);
+            box-shadow: 2px 2px 0px var(--ink-black);
         }
 
         footer {
-            margin-top: 2.5rem;
-            font-size: 1rem;
-            opacity: 0.6;
-            letter-spacing: 1px;
+            margin-top: 40px;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.2rem;
+            color: var(--plaster);
+            text-shadow: 2px 2px 0px var(--ink-black);
+            animation: blink 0.2s infinite alternate;
         }
 
-        /* Classes pour le JS Glitch */
-        .glitch-active {
-            animation: shake 0.2s cubic-bezier(.36,.07,.19,.97) both;
-            border-color: var(--accent-green) !important;
-        }
-
-        .text-glitch {
-            animation: text-flicker 0.1s infinite;
-            color: var(--accent-green);
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
         }
 
         @keyframes shake {
-            10%, 90% { transform: translate3d(-1px, 0, 0); }
-            20%, 80% { transform: translate3d(2px, 0, 0); }
-            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-            40%, 60% { transform: translate3d(4px, 0, 0); }
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            20% { transform: translate(-2px, -1px) rotate(-1deg); }
+            40% { transform: translate(-1px, 2px) rotate(1deg); }
+            60% { transform: translate(1px, -2px) rotate(0deg); }
+            80% { transform: translate(-1px, 1px) rotate(1deg); }
+            100% { transform: translate(1px, -1px) rotate(-1deg); }
         }
 
-        @keyframes text-flicker {
-            0% { opacity: 1; }
-            50% { opacity: 0.8; }
-            100% { opacity: 1; }
+        @keyframes blink {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0.8; transform: scale(1.05); }
         }
 
-        /* Curseur personnalisé */
-        body {
-            cursor: crosshair;
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            .btn-retour { top: -15px; left: -10px; padding: 8px 12px; font-size: 1rem; }
+            .container { width: 90%; padding: 20px 10px; }
         }
-
-        /* Style spécifique pour le bouton retour - Position Haut Gauche */
-.btn-retour {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    
-    /* Taille compacte */
-    padding: 0.4rem 0.8rem !important;
-    font-size: 1.2rem !important;
-    width: auto !important;
-    display: block !important;
-    
-    /* Style visuel */
-    border-color: var(--accent-dim) !important; /* Bordure sombre au repos */
-    color: var(--text-main);
-    opacity: 0.7;
-    z-index: 20; /* S'assure qu'il est au-dessus des autres éléments */
-    transition: all 0.2s ease;
-}
-
-.btn-retour:hover {
-    border-color: var(--accent-green) !important;
-    color: #000; /* Texte noir quand activé */
-    opacity: 1;
-    box-shadow: 0 0 15px var(--accent-green);
-    transform: translate(-2px, -2px); /* Léger décalage au survol */
-}
-
-/* Le remplissage vert au survol */
-.btn-retour::before {
-    background-color: var(--accent-green);
-}

@@ -1,80 +1,52 @@
-// --- 1. Effet Machine à écrire pour le sous-titre ---
-const subtitleText = "INSERT COIN TO START...";
-const subtitleElement = document.getElementById('typewriter');
-let i = 0;
+const socialData = {
+        twitch: "https://www.twitch.tv/boiling_stone",
+        discord: "https://discord.gg/votre_invite",
+        youtube: "https://youtube.com/@votre_chaine",
+        twitter: "https://twitter.com/votre_compte"
+    };
 
-function typeWriter() {
-    if (i < subtitleText.length) {
-        subtitleElement.innerHTML += subtitleText.charAt(i);
-        i++;
-        setTimeout(typeWriter, 50 + Math.random() * 50); // Vitesse aléatoire pour effet rétro
-    } else {
-        // Clignotement à la fin
-        subtitleElement.style.borderRight = "2px solid var(--accent-green)";
-        setInterval(() => {
-            subtitleElement.style.borderRight = subtitleElement.style.borderRight === "2px solid transparent" ? "2px solid var(--accent-green)" : "2px solid transparent";
-        }, 500);
+    const textToType = "HOLD ONTO YOUR BUTTCHEEKS!";
+
+    function setLinks() {
+        const ids = ['link-twitch', 'link-discord', 'link-youtube', 'link-twitter'];
+        const keys = ['twitch', 'discord', 'youtube', 'twitter'];
+        
+        ids.forEach((id, index) => {
+            const el = document.getElementById(id);
+            if(el && socialData[keys[index]]) {
+                el.href = socialData[keys[index]];
+            }
+        });
     }
-}
 
-// Lancer l'écriture après un court délai
-setTimeout(typeWriter, 500);
-
-// --- 2. Effet Glitch Aléatoire ---
-const container = document.getElementById('mainCard');
-const title = document.getElementById('mainTitle');
-const footer = document.getElementById('footerText');
-const messages = ["SYSTEM ERROR", "RELOADING...", "DON'T BLINK", "BUCKSHOT", "12 GAUGE", "WAITING..."];
-
-function triggerGlitch() {
-    // Ajoute la classe de tremblement
-    container.classList.add('glitch-active');
-    title.classList.add('text-glitch');
-    
-    // Change le texte du footer aléatoirement pendant le glitch
-    const originalFooter = footer.innerText;
-    const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-    footer.innerText = randomMsg;
-    footer.style.color = "var(--accent-green)";
-
-    setTimeout(() => {
-        container.classList.remove('glitch-active');
-        title.classList.remove('text-glitch');
-        footer.innerText = originalFooter;
-        footer.style.color = "";
-    }, 300); // Durée du glitch
-
-    // Prochain glitch aléatoire entre 2 et 6 secondes
-    const nextGlitch = Math.random() * 4000 + 2000;
-    setTimeout(triggerGlitch, nextGlitch);
-}
-
-// Lancer le premier glitch
-setTimeout(triggerGlitch, 3000);
-
-
-// --- 4. Interaction Boutons (Son de clic simulé visuellement) ---
-// Sélectionne tous les boutons, y compris le nouveau bouton RETOUR
-const buttons = document.querySelectorAll('.link-btn');
-buttons.forEach(btn => {
-    btn.addEventListener('mousedown', () => {
-        btn.style.transform = "scale(0.95)";
-        // Garde la couleur de bordure actuelle ou passe au blanc si c'est le bouton retour
-        if(!btn.classList.contains('btn-retour')) {
-             btn.style.borderColor = "#fff";
+    function typeWriter() {
+        const el = document.getElementById('typewriter');
+        if(!el) return;
+        
+        let i = 0;
+        el.innerHTML = "";
+        
+        function type() {
+            if (i < textToType.length) {
+                el.innerHTML += textToType.charAt(i);
+                i++;
+                setTimeout(type, Math.random() * 50 + 30);
+            }
         }
+        setTimeout(type, 600);
+    }
+
+    function footerChaos() {
+        const footer = document.getElementById('footerText');
+        if(!footer) return;
+        setInterval(() => {
+            footer.style.transform = `scale(${1 + Math.random() * 0.2}) rotate(${Math.random() * 4 - 2}deg)`;
+            footer.style.color = Math.random() > 0.8 ? '#fff' : '#e0e0e0';
+        }, 150);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        setLinks();
+        typeWriter();
+        footerChaos();
     });
-    btn.addEventListener('mouseup', () => {
-        btn.style.transform = "scale(1)";
-        if(!btn.classList.contains('btn-retour')) {
-            btn.style.borderColor = "var(--text-main)";
-        }
-    });
-    // Reset si la souris quitte le bouton pendant le clic
-    btn.addEventListener('mouseleave', () => {
-        btn.style.transform = "scale(1)";
-        if(!btn.classList.contains('btn-retour')) {
-            btn.style.borderColor = "var(--text-main)";
-        }
-    });
-});

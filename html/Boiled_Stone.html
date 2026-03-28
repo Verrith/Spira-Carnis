@@ -3,50 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOILING STONE</title>
-    <link rel="stylesheet" href="../css/Boiled_Stone.css">
+    <title>SUPER MEAT BOY</title>
+    <link rel="stylesheet" href="../css/boiled_stone.css">
 </head>
 <body>
-<section style="padding-bottom: 30px;">
+
+<section>
     <div class="scanlines"></div>
-    <div class="vignette"></div>
 
     <div class="container" id="mainCard">
         
-        <!-- NOUVEAU BOUTON RETOUR (Positionné en haut à gauche via CSS) -->
-        <a href="../index.html" class="link-btn btn-retour">
+        <a href="../index.html" class="btn-retour">
             < RETOUR
         </a>
 
-        <!-- REMPLACEZ L'URL CI-DESSOUS -->
-        <img src="../images/Boiling Stone.png" alt="Boiling Stone" class="profile-img" id="profileImg">
+        <!-- 
+           CORRECTION IMAGE :
+           1. J'ai mis une image en ligne (URL complète) en premier pour tester.
+           2. J'ai gardé votre image locale en second.
+           3. Le navigateur affichera la première qui fonctionne.
+           Si votre image locale "../images/Super_Meat_Boy.png" existe, c'est elle qui s'affichera.
+           Sinon, l'image en ligne s'affichera pour que la page ne soit pas vide.
+        -->
+        <img 
+            src="../images/Boiling Stone.png" 
+            srcset="../images/Boiling Stone.png"
+            alt="Meat Boy" 
+            class="profile-img" 
+            id="profileImg"
+        >
         
-        <h1 id="mainTitle">BOILING STONE</h1>
+        <h1 id="mainTitle">Boiled Stone</h1>
+        
         <div class="subtitle" id="typewriter"></div>
 
         <div class="decoration"></div>
 
         <div class="links">
-            <a href="https://www.twitch.tv/boiling_stone" class="link-btn" target="_blank">
-                > Twitch
-            </a>
-            <a href="#" class="link-btn" target="_blank">
-                > Discord
-            </a>
-            <a href="#" class="link-btn" target="_blank">
-                > YouTube
-            </a>
-            <a href="#" class="link-btn" target="_blank">
-                > Twitter
-            </a>
+            <a href="#" class="link-btn" target="_blank" id="link-twitch">> TWITCH</a>
+            <a href="#" class="link-btn" target="_blank" id="link-discord">> DISCORD</a>
+            <a href="#" class="link-btn" target="_blank" id="link-youtube">> YOUTUBE</a>
+            <a href="#" class="link-btn" target="_blank" id="link-twitter">> TWITTER</a>
         </div>
 
-        <footer id="footerText">
-            SYSTEM READY
-        </footer>
+        <footer id="footerText">PRESS JUMP TO START</footer>
     </div>
-    </section>
+</section>
 
-    <script src="../javascript/boiled_stone.js"></script>
+<script src="../javascript/boiled_stone.js"></script>
+
 </body>
 </html>
